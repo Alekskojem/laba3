@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Робота Кожемяко О.М.</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <script src="assets/js/index.js"></script>
+
+ 
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <button type="button" class="btn btn-outline-success" style="float: left;" data-bs-toggle="modal"
+      data-bs-target="#largeModal">Додати користувача</button>
+  </header><!-- End Header -->
+
+  <main class="main">
+    <section class="section">
+      <div class="row">
+        <div class="col-12">
+          <div class="card recent-sales overflow-auto">
+
+            <div class="card-body">
+              <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Прізвище</th>
+                    <th scope="col">Імя</th>
+                    <th scope="col">По-батькові</th>
+                    <th scope="col">Група</th>
+                    <th scope="col">ID групи</th>
+                    <th scope="col"></th>
+                    <th scope-"col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for user in users %}
+                    
+                      <tr>
+                        <th><input name="id" type="text" class="form-control" id="id{{user[0]}}" value="{{user[0]}}"></th>
+                        <td><input name="name" type="text" class="form-control" id="name{{user[0]}}" value="{{user[1]}}"></td>
+                        <td><input name="surname" type="text" class="form-control" id="surname{{user[0]}}" value="{{user[2]}}"></td>
+                        <td><input name="lastname" type="text" class="form-control" id="lastname{{user[0]}}" value="{{user[3]}}"></td>
+                        <td><input name="group" type="text" class="form-control" id="group{{user[0]}}" value="{{user[4]}}"></td>
+                        <td><input name="group_id" type="text" class="form-control" id="group_id{{user[0]}}" value="{{user[5]}}"></td>
+                        <td><button class="btn btn-outline-danger" onclick="updateUser('{{user[0]}}')">Змінити</button></td>
+                        <td><button class="btn btn-outline-danger" onclick="deleteUser('{{user[0]}}')">Видалити</button></td>
+                      </tr>
+                    
+                  {% endfor %}
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Large Modal -->
+
+    <div class="modal fade" id="largeModal" tabindex="-1">
+     
+      <form action="../add" method="post">
+      
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Додати користувача</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрити"></button>
+          </div>
+          <div class="modal-body">
+
+            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+
+              
+
+                <div class="row mb-3">
+                  <label for="name" class="col-md-4 col-lg-3 col-form-label">Прізвище</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="name" type="text" class="form-control" id="name" value="">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="surname" class="col-md-4 col-lg-3 col-form-label">Імя</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="surname" type="text" class="form-control" id="surname" value="">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="lastname" class="col-md-4 col-lg-3 col-form-label">По-батькові</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="lastname" type="text" class="form-control" id="lastname" value="">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="group" class="col-md-4 col-lg-3 col-form-label">Група</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="group" type="text" class="form-control" id="group" value="">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="group_id" class="col-md-4 col-lg-3 col-form-label">ID групи</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="group_id" type="text" class="form-control" id="group_id"
+                      value="">
+                  </div>
+                </div>
+
+               
+              
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+            <button type="submit" class="btn btn-primary">Зберегти</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+    </div>
+
+
+
+  </main><!-- End #main -->
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/jquery/jquery.min.js"></script>
+</body>
+
+</html>
