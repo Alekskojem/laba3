@@ -11,6 +11,42 @@ app = Flask(__name__,
             static_folder='static',
             template_folder='templates')
 
+# Створення єкземпляру підключення до бази даних
+def getConnection():
+    return psycopg2.connect(dbname='ping', user='postgres', password='root', host='localhost')
+
+# Коміт та закритя екземпляру підключення до БД
+def commitAndClose(connection):
+    connection.commit()
+    connection.close()
+
+
+# Створення схеми БД  schema.sql файлу
+@app.cli.command("init")
+def init_db():
+    conn = getConnection()
+    cur = conn.cursor()  # make a cursor (allows us to execute queries)
+    file = open("schema.sql", "r") # open the file
+    alltext = file.read() # read all the text
+    cur.execute(alltext) # execute all the SQL in the file
+    conn.commit()  # Actually make the changes to the db
+    cur.close()  
+    conn.close() # cl
+    print("Initialized the database and cleared tables.")
+#  Додавання даних в БД з файлу populate.sql
+@app.cli.command('populate')
+def populate_db():
+    conn = getConnection()
+    cur = conn.cursor()
+    file = open("populate.sql", "rb") # open the file
+    alltext = file.read().decode("UTF-8")
+    cur.execute(alltext) # execute all the SQL in the file
+    conn.commit()
+    cur.close()  
+    conn.close() # cl
+    print("Populated database with sample data.")
+
+
 # Клас користувач з полями(ім'я і т.д.)
 class User:
 # Конструктор створення екземпляру класа (об'єкта)
@@ -21,14 +57,7 @@ class User:
         self.group = group
         self.group_id = group_id
         
-# Створення єкземпляру підключення до бази даних
-def getConnection():
-    return psycopg2.connect(dbname='ping', user='postgres', password='root', host='localhost')
 
-# Коміт та закритя екземпляру підключення до БД
-def commitAndClose(connection):
-    connection.commit()
-    connection.close()
 
 # Отримання всіх користувачів з БД
 def getAllUsers():
@@ -47,7 +76,7 @@ def save(user):
     try:
         conn =  getConnection() 
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO public.users(name, surname, lastname, user_group, group_id) values(%s, %s, %s, %s, %s);",(user.name, user.surname, user.lastname ,user.group, user.group_id))
+        cursor.execute("INSERT INTO public.users(username, surname, lastname, user_group, group_id) values(%s, %s, %s, %s, %s);",(user.name, user.surname, user.lastname ,user.group, user.group_id))
         commitAndClose(conn)
 
     except:
@@ -59,7 +88,7 @@ def update(user):
         conn =  getConnection() 
         cursor = conn.cursor()
         print(user.id + " " + user.name + " " + user.surname + " " + user.lastname + " " + user.group + " " + user.group_id)
-        cursor.execute("UPDATE public.users set name = '" + user.name +"', surname = '" + user.surname + "', lastname = '" + user.lastname + "', user_group = '" + user.group + "', group_id = '"+ user.group_id + "' where id =" + user.id +"")
+        cursor.execute("UPDATE public.users set username = '" + user.name +"', surname = '" + user.surname + "', lastname = '" + user.lastname + "', user_group = '" + user.group + "', group_id = '"+ user.group_id + "' where id =" + user.id +"")
         commitAndClose(conn)
 
     except:
