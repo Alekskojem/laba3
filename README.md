@@ -13,5 +13,6 @@ Web server Flask разом з PostgreSQL
 https://www.postgresqltutorial.com/postgresql-getting-started/
 https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql-linux/
 https://github.com/pkirlin/lab-flask/wiki
+
 Звичайно наданого матеріалу може бути не достатньо, але це задовільнає початкову роботу та можливість легкого старту в роботі на проєктом.
    
